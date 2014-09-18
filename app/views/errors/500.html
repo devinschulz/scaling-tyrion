@@ -4,13 +4,9 @@
 		<title>Application error</title>
 	</head>
 	<body>
-		{{if eq .RunMode "dev"}}
-		{{template "errors/500-dev.html" .}}
-		{{else}}
-		<h1>Oops, an error occured</h1>
+		<h1>Oops, a 500 error occurred</h1>
 		<p>
 			This exception has been logged.
 		</p>
-		{{end}}
 	</body>
 </html>

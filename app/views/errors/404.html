@@ -4,9 +4,6 @@
 		<title>Not found</title>
 	</head>
 	<body>
-{{if eq .RunMode "dev"}}
-{{template "errors/404-dev.html" .}}
-{{else}}
 	{{with .Error}}
 	<h1>
 		{{.Title}}
@@ -15,6 +12,5 @@
 		{{.Description}}
 	</p>
 	{{end}}
-{{end}}
 	</body>
 </html>
