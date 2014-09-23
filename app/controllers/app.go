@@ -5,6 +5,7 @@ import (
 	"github.com/idevschulz/portfolio/app/models"
 	"github.com/idevschulz/portfolio/app/routes"
 	"github.com/revel/revel"
+	// "log"
 )
 
 type App struct {
@@ -12,7 +13,20 @@ type App struct {
 	GorpController
 }
 
+func (c App) Auth() bool {
+	auth := false
+	if user := c.connected(); user != nil {
+		auth = true
+	}
+	return auth
+}
+
 func (c App) Index() revel.Result {
+	auth := c.Auth()
+	return c.Render(auth)
+}
+
+func (c App) Register() revel.Result {
 	return c.Render()
 }
 
@@ -34,18 +48,12 @@ func (c App) connected() *models.User {
 }
 
 func (c App) getUser(email string) *models.User {
-	users, err := c.Txn.Select(models.User{}, `SELECT * FROM users where Email = $1`, email)
-	if err != nil {
-		panic(err)
-	}
+	users, err := c.Txn.Select(models.User{}, `SELECT * FROM users WHERE email = $1`, email)
+	checkErr(err, "Select failed:")
 	if len(users) == 0 {
 		return nil
 	}
 	return users[0].(*models.User)
-}
-
-func (c App) Register() revel.Result {
-	return c.Render()
 }
 
 func (c App) SaveUser(user models.User, verifyPassword string) revel.Result {
@@ -56,15 +64,13 @@ func (c App) SaveUser(user models.User, verifyPassword string) revel.Result {
 	if c.Validation.HasErrors() {
 		c.Validation.Keep()
 		c.FlashParams()
-		// return c.Redirect(routes.App.Register())
+		return c.Redirect(routes.App.Register())
 	}
 
 	user.HashedPassword, _ = bcrypt.GenerateFromPassword(
 		[]byte(user.Password), bcrypt.DefaultCost)
 	err := c.Txn.Insert(&user)
-	if err != nil {
-		panic(err)
-	}
+	checkErr(err, "Saving User failed:")
 
 	c.Session["user"] = user.Email
 	c.Flash.Success("Welcome " + user.Name)
@@ -82,10 +88,14 @@ func (c App) Login(email, password string, remember bool) revel.Result {
 			} else {
 				c.Session.SetNoExpiration()
 			}
-			c.Flash.Success("Welcome back" + user.Name)
+			c.Flash.Success("Welcome Back " + user.Name)
+			return c.Redirect(routes.App.Index())
+		} else {
+			c.Flash.Error("Incorrect Password")
 			return c.Redirect(routes.App.Index())
 		}
 	}
+	c.Flash.Error("User Not found")
 	return c.Redirect(routes.App.Index())
 }
 
@@ -93,5 +103,6 @@ func (c App) Logout() revel.Result {
 	for k := range c.Session {
 		delete(c.Session, k)
 	}
+	c.Flash.Success("Logged out successfully")
 	return c.Redirect(routes.App.Index())
 }
