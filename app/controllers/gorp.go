@@ -50,11 +50,11 @@ func InitDB() {
 	checkErr(err, "Create Tables failed")
 
 	// Generate Demo User
-	bcryptPassword, _ := bcrypt.GenerateFromPassword([]byte("demo"), bcrypt.DefaultCost)
-	demoUser := &models.User{0, "demo", "demo@demo.com", "demo", bcryptPassword}
-	if err := Dbm.Insert(demoUser); err != nil {
-		checkErr(err, "Failed to insert user")
-	}
+	// bcryptPassword, _ := bcrypt.GenerateFromPassword([]byte("demo"), bcrypt.DefaultCost)
+	// demoUser := &models.User{0, "demo", "demo@demo.com", "demo", bcryptPassword}
+	// if err := Dbm.Insert(demoUser); err != nil {
+	// 	checkErr(err, "Failed to insert user")
+	// }
 
 }
 
