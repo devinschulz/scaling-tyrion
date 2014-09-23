@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	"code.google.com/p/go.crypto/bcrypt"
+	// "code.google.com/p/go.crypto/bcrypt"
 	"database/sql"
 	"github.com/coopernurse/gorp"
 	"github.com/idevschulz/portfolio/app/models"
@@ -37,7 +37,7 @@ func InitDB() {
 		}
 	}
 
-	t := Dbm.AddTable(models.User{}).SetKeys(true, "Id")
+	t := Dbm.AddTableWithName(models.User{}, "users").SetKeys(true, "Id")
 	t.ColMap("Password").Transient = true
 	setColumnSizes(t, map[string]int{
 		"Email": 50,
