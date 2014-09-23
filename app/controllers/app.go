@@ -3,7 +3,6 @@ package controllers
 import (
 	"code.google.com/p/go.crypto/bcrypt"
 	"github.com/idevschulz/portfolio/app/models"
-	"github.com/idevschulz/portfolio/app/routes"
 	"github.com/revel/revel"
 	// "log"
 )
@@ -64,7 +63,7 @@ func (c App) SaveUser(user models.User, verifyPassword string) revel.Result {
 	if c.Validation.HasErrors() {
 		c.Validation.Keep()
 		c.FlashParams()
-		return c.Redirect(routes.App.Register())
+		return c.Redirect(App.Register)
 	}
 
 	user.HashedPassword, _ = bcrypt.GenerateFromPassword(
@@ -74,7 +73,7 @@ func (c App) SaveUser(user models.User, verifyPassword string) revel.Result {
 
 	c.Session["user"] = user.Email
 	c.Flash.Success("Welcome " + user.Name)
-	return c.Redirect(routes.App.Index())
+	return c.Redirect(App.Index)
 }
 
 func (c App) Login(email, password string, remember bool) revel.Result {
@@ -89,14 +88,14 @@ func (c App) Login(email, password string, remember bool) revel.Result {
 				c.Session.SetNoExpiration()
 			}
 			c.Flash.Success("Welcome Back " + user.Name)
-			return c.Redirect(routes.App.Index())
+			return c.Redirect(App.Index)
 		} else {
 			c.Flash.Error("Incorrect Password")
-			return c.Redirect(routes.App.Index())
+			return c.Redirect(App.Index)
 		}
 	}
 	c.Flash.Error("User Not found")
-	return c.Redirect(routes.App.Index())
+	return c.Redirect(App.Index)
 }
 
 func (c App) Logout() revel.Result {
@@ -104,5 +103,5 @@ func (c App) Logout() revel.Result {
 		delete(c.Session, k)
 	}
 	c.Flash.Success("Logged out successfully")
-	return c.Redirect(routes.App.Index())
+	return c.Redirect(App.Index)
 }
