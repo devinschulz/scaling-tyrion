@@ -15,7 +15,7 @@
     <input type="text" name="{{$field.Name}}" value="{{$field.Flash}}">
     <span>{{$field.Error}}</span>
   {{end}}
-  {{with $field := field "user.Password" .}}
+  {{with $field := field "user.Password.String" .}}
     <label for="{{$field.Name}}">Password</label>
     <input type="password" name="{{$field.Name}}" value="{{$field.Flash}}">
     <span>{{$field.Error}}</span>

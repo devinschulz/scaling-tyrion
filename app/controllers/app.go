@@ -57,7 +57,7 @@ func (c App) getUser(email string) *models.User {
 
 func (c App) SaveUser(user models.User, verifyPassword string) revel.Result {
 	c.Validation.Required(verifyPassword)
-	c.Validation.Required(verifyPassword == user.Password).Message("Passwords don't match")
+	c.Validation.Required(verifyPassword == user.Password.String).Message("Passwords don't match")
 	user.Validate(c.Validation)
 
 	if c.Validation.HasErrors() {
@@ -67,7 +67,7 @@ func (c App) SaveUser(user models.User, verifyPassword string) revel.Result {
 	}
 
 	user.HashedPassword, _ = bcrypt.GenerateFromPassword(
-		[]byte(user.Password), bcrypt.DefaultCost)
+		[]byte(user.Password.String), bcrypt.DefaultCost)
 	err := c.Txn.Insert(&user)
 	checkErr(err, "Saving User failed:")
 

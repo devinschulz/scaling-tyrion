@@ -1,6 +1,7 @@
 package models
 
 import (
+	"database/sql"
 	"fmt"
 	"github.com/revel/revel"
 	"regexp"
@@ -10,7 +11,7 @@ type User struct {
 	Id             int64
 	Name           string
 	Email          string
-	Password       string
+	Password       sql.NullString
 	HashedPassword []byte
 }
 
@@ -28,7 +29,7 @@ func (user *User) Validate(v *revel.Validation) {
 		revel.Match{emailPattern},
 	)
 
-	ValidatePassword(v, user.Password).
+	ValidatePassword(v, user.Password.String).
 		Key("user.Password")
 
 	v.Check(user.Name,
