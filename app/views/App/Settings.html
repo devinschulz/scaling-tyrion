@@ -1,0 +1,35 @@
+{{set . "title" "Edit Profile"}}
+{{template "header.html" .}}
+
+<h1>Edit</h1>
+
+<form action="{{url "App.UpdateSettings" }}" method="post">
+  {{with $field := field "user.Email" .}}
+    <label for="{{$field.Name}}">Email</label>
+    <input type="email" name="{{$field.Name}}" value="{{$field.Value}}">
+    <span class="error">{{$field.Error}}</span>
+  {{end}}
+
+  {{with $field := field "user.Name" .}}
+    <label for="{{$field.Name}}">Name</label>
+    <input type="text" name="{{$field.Name}}" value="{{$field.Value}}">
+    <span class="error">{{$field.Error}}</span>
+  {{end}}
+
+  <span class="help-block">Leave Password blank if not changing</span>
+  {{with $field := field "user.Password" .}}
+    <label for="{{$field.Name}}">Password</label>
+    <input type="password" name="{{$field.Name}}">
+    <span class="error">{{$field.Error}}</span>
+  {{end}}
+
+  {{with $field := field "verifyPassword" .}}
+    <label for="{{$field.Name}}">Verify Password</label>
+    <input type="password" name="{{$field.Name}}">
+    <span class="error">{{$field.Error}}</span>
+  {{end}}
+
+  <input type="submit" class="btn btn-primary">
+</form>
+
+{{template "footer.html" .}}

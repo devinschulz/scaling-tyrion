@@ -110,3 +110,37 @@ func (c App) Logout() revel.Result {
 	c.Flash.Success("Logged out successfully")
 	return c.Redirect(App.Index)
 }
+
+func (c App) Settings() revel.Result {
+	auth := c.Auth()
+	if email, ok := c.Session["user"]; ok {
+		user := c.getUser(email)
+		return c.Render(auth, user)
+	}
+
+	c.Flash.Error("You Must Be Logged In To Edit Your Profile")
+	return c.Redirect(App.Index)
+}
+
+func (c App) UpdateSettings(email, password, verifyPassword string) revel.Result {
+	if password != "" {
+		models.ValidatePassword(c.Validation, password)
+		c.Validation.Required(verifyPassword).Message("Please Verify Password")
+		c.Validation.Required(verifyPassword == password).Message("Passwords don't match")
+		if c.Validation.HasErrors() {
+			c.Validation.Keep()
+			return c.Redirect(App.Settings)
+		}
+
+		bcryptPassword, _ := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+		_, err := c.Txn.Exec("UPDATE users SET hashedpassword = $1 WHERE id = $1", bcryptPassword, c.connected().Id)
+		checkErr(err, "Failed to Update User")
+
+		c.Flash.Success("Settings Updated")
+		return c.Redirect(App.Settings)
+	} else {
+		c.Flash.Success("Settings Updated no password")
+		return c.Redirect(App.Index)
+	}
+
+}
