@@ -26,7 +26,8 @@ func (c App) Index() revel.Result {
 }
 
 func (c App) Register() revel.Result {
-	return c.Render()
+	auth := c.Auth()
+	return c.Render(auth)
 }
 
 func (c App) AddUser() revel.Result {
@@ -57,7 +58,7 @@ func (c App) getUser(email string) *models.User {
 
 func (c App) SaveUser(user models.User, verifyPassword string) revel.Result {
 	c.Validation.Required(verifyPassword)
-	c.Validation.Required(verifyPassword == user.Password.String).Message("Passwords don't match")
+	c.Validation.Required(verifyPassword == user.Password).Message("Passwords don't match")
 	user.Validate(c.Validation)
 
 	if c.Validation.HasErrors() {
@@ -66,8 +67,7 @@ func (c App) SaveUser(user models.User, verifyPassword string) revel.Result {
 		return c.Redirect(App.Register)
 	}
 
-	user.HashedPassword, _ = bcrypt.GenerateFromPassword(
-		[]byte(user.Password.String), bcrypt.DefaultCost)
+	user.HashedPassword, _ = bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
 	err := c.Txn.Insert(&user)
 	checkErr(err, "Saving User failed:")
 
@@ -87,14 +87,19 @@ func (c App) Login(email, password string, remember bool) revel.Result {
 			} else {
 				c.Session.SetNoExpiration()
 			}
-			c.Flash.Success("Welcome Back " + user.Name)
+			if user.Admin == true {
+				c.Session["admin"] = email
+				c.Flash.Success("Welcome Back " + user.Name + ". You are an Admin!")
+			} else {
+				c.Flash.Success("Welcome Back " + user.Name)
+			}
 			return c.Redirect(App.Index)
 		} else {
 			c.Flash.Error("Incorrect Password")
 			return c.Redirect(App.Index)
 		}
 	}
-	c.Flash.Error("User Not found")
+	c.Flash.Error("Email Does Not Exist")
 	return c.Redirect(App.Index)
 }
 

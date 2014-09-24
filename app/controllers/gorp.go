@@ -38,7 +38,7 @@ func InitDB() {
 	}
 
 	t := Dbm.AddTableWithName(models.User{}, "users").SetKeys(true, "Id")
-	t.ColMap("Password").Transient = true
+	t.ColMap("Password").SetTransient(true)
 	setColumnSizes(t, map[string]int{
 		"Email": 50,
 		"Name":  50,
