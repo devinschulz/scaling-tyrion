@@ -1,3 +1,4 @@
+{{set . "title" "Home"}}
 {{template "header.html" .}}
 
 <div class="container">
@@ -8,7 +9,7 @@
   </div>
 </div>
 
-{{if eq .auth false}}
+{{if not .auth }}
 <form action="{{url "App.Login"}}" method="post">
   
   <label for="email">Email</label>
