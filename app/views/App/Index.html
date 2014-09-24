@@ -9,7 +9,6 @@
   </div>
 </div>
 
-{{if eq .auth false}}
 <form action="{{url "App.Login"}}" method="post">
   
   <label for="email">Email</label>
@@ -21,6 +20,5 @@
   <label for="remember"><input type="checkbox" name="remember" value="true" id="remember"> Remember Me</label>
   <input type="submit" value="login">
 </form>
-{{end}}
 
 {{template "footer.html" .}}
