@@ -17,11 +17,12 @@
   <div class="container">
     <nav>
       <ul>
-        
+        {{if .auth}}
         <li><a href="{{url "App.Logout"}}">Logout</a></li>
+        {{else}}
         <li><a href="{{url "App.Index" }}">Login</a></li>
         <li><a href="{{url "App.Register" }}">Register</a></li>
-        
+        {{end}}
       </ul>
     </nav>
   </div> 
