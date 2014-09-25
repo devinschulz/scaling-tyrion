@@ -45,17 +45,18 @@ func InitDB() {
 		"Name":  50,
 	})
 
+	t = Dbm.AddTableWithName(models.Article{}, "articles").SetKeys(true, "Id")
+	t.ColMap("Title").SetUnique(true)
+	t.ColMap("Slug").SetUnique(true)
+	setColumnSizes(t, map[string]int{
+		"Title": 255,
+		"Slug":  255,
+	})
+
 	Dbm.TraceOn("[gorp]", revel.INFO)
 
 	err := Dbm.CreateTablesIfNotExists()
 	checkErr(err, "Create Tables failed")
-
-	// Generate Demo User
-	// bcryptPassword, _ := bcrypt.GenerateFromPassword([]byte("demo"), bcrypt.DefaultCost)
-	// demoUser := &models.User{0, "demo", "demo@demo.com", "demo", bcryptPassword}
-	// if err := Dbm.Insert(demoUser); err != nil {
-	// 	checkErr(err, "Failed to insert user")
-	// }
 
 }
 
