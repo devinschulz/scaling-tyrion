@@ -29,8 +29,7 @@ func (user *User) Validate(v *revel.Validation) {
 		revel.Match{emailPattern},
 	)
 
-	ValidatePassword(v, user.Password).
-		Key("user.Password")
+	v.Email(user.Email)
 
 	v.Check(user.Name,
 		revel.Required{},
@@ -38,7 +37,7 @@ func (user *User) Validate(v *revel.Validation) {
 	)
 }
 
-func ValidatePassword(v *revel.Validation, password string) *revel.ValidationResult {
+func (user *User) ValidatePassword(v *revel.Validation, password string) *revel.ValidationResult {
 	return v.Check(password,
 		revel.Required{},
 		revel.MaxSize{15},
