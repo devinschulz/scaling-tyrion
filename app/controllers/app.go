@@ -73,7 +73,7 @@ func (c App) SaveUser(user models.User, verifyPassword string) revel.Result {
 	UserEmailCheck, err := c.Txn.Select(models.User{}, `SELECT * FROM users WHERE email = $1`, user.Email)
 	checkErr(err, "Failed to get email: ")
 
-	if UserEmailCheck != nil {
+	if UserEmailCheck != nil && len(UserEmailCheck) > 0 {
 		c.Validation.Error("Email already taken").Key("user.Email")
 		c.Validation.Keep()
 		c.FlashParams()
