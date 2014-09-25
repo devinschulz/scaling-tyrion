@@ -1,4 +1,4 @@
-
+{{set . "title" "Home"}}
 {{template "header.html" .}}
 
 <div class="container">
@@ -9,7 +9,7 @@
   </div>
 </div>
 
-{{if eq .auth false}}
+{{if not .auth }}
 <form action="{{url "App.Login"}}" method="post">
   
   <label for="email">Email</label>
@@ -19,7 +19,7 @@
   <input type="password" name="password" id="password">
 
   <label for="remember"><input type="checkbox" name="remember" value="true" id="remember"> Remember Me</label>
-  <input type="submit" value="login">
+  <input type="submit" value="login" class="btn btn-primary">
 </form>
 {{end}}
 
