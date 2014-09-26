@@ -1,0 +1,27 @@
+<form action="{{.action}}" method="post">
+
+  {{with $field := field "article.Id" .}}
+  <input type="hidden" id="{{$field.Id}}" name="{{$field.Name}}" value="{{$field.Value}}" />
+  {{end}}
+
+  {{with $field := field "article.Title" .}}
+    <label for="{{$field.Name}}">Title</label>
+    <input type="text" name="{{$field.Name}}" value="{{$field.Flash}}">
+    {{if $field.Error}}<span>{{$field.Error}}</span>{{end}}
+  {{end}}
+
+  {{with $field := field "article.Slug" .}}
+    <label for="{{$field.Name}}">Slug</label>
+    <input type="text" name="{{$field.Name}}" value="{{$field.Flash}}">
+    {{if $field.Error}}<span>{{$field.Error}}</span>{{end}}
+  {{end}}
+
+  {{with $field := field "article.Content" .}}
+    <label for="{{$field.Name}}">Content</label>
+    <textarea type="text" name="{{$field.Name}}">{{$field.Flash}}</textarea>
+    {{if $field.Error}}<span>{{$field.Error}}</span>{{end}}
+  {{end}}
+
+  <input type="submit" class="btn btn-primary" value="{{.actionButton}}">
+
+</form>

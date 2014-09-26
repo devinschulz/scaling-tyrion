@@ -12,6 +12,10 @@ POST    /login                                  App.Login
 GET     /settings                               App.Settings
 POST    /settings                               App.UpdateSettings
 
+GET     /articles                               Articles.Index
+GET     /articles/new                           Articles.New
+POST    /articles/new                           Articles.CreateArticle
+
 # Ignore favicon requests
 GET     /favicon.ico                            404
 
