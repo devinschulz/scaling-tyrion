@@ -4,6 +4,7 @@
 <h1>Register</h1>
 
 <form action="{{url "App.SaveUser"}}" method="post">
+  <input type="hidden" name="csrf_token" value="{{ .csrf_token }}" />
 
   {{with $field := field "user.Email" .}}
     <label for="{{$field.Name}}">Email</label>

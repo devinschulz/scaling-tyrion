@@ -11,6 +11,8 @@
 
 {{if not .auth }}
 <form action="{{url "App.Login"}}" method="post">
+
+  <input type="hidden" name="csrf_token" value="{{ .csrf_token }}" />
   
   <label for="email">Email</label>
   <input type="email" name="email" id="email">
