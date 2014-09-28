@@ -1,27 +1,38 @@
 <form action="{{.action}}" method="post">
+  <input type="hidden" name="csrf_token" value="{{ .csrf_token }}" />
 
-  {{with $field := field "article.Id" .}}
-  <input type="hidden" id="{{$field.Id}}" name="{{$field.Name}}" value="{{$field.Value}}" />
-  {{end}}
+  <div class="row">
+    {{with $field := field "article.Id" .}}
+    <input type="hidden" id="{{$field.Id}}" name="{{$field.Name}}" value="{{$field.Value}}" />
+    {{end}}
+  </div>  
 
-  {{with $field := field "article.Title" .}}
-    <label for="{{$field.Name}}">Title</label>
-    <input type="text" name="{{$field.Name}}" value="{{$field.Flash}}">
-    {{if $field.Error}}<span>{{$field.Error}}</span>{{end}}
-  {{end}}
+  <div class="row">
+    {{with $field := field "article.Title" .}}
+      <label for="{{$field.Name}}">Title</label>
+      <input type="text" name="{{$field.Name}}" value="{{if $field.Flash}}{{$field.Flash}}{{else}}{{$field.Value}}{{end}}">
+      {{if $field.Error}}<span>{{$field.Error}}</span>{{end}}
+    {{end}}
+  </div>
 
-  {{with $field := field "article.Slug" .}}
-    <label for="{{$field.Name}}">Slug</label>
-    <input type="text" name="{{$field.Name}}" value="{{$field.Flash}}">
-    {{if $field.Error}}<span>{{$field.Error}}</span>{{end}}
-  {{end}}
+  <div class="row">
+    {{with $field := field "article.Slug" .}}
+      <label for="{{$field.Name}}">Slug</label>
+      <input type="text" name="{{$field.Name}}" value="{{if $field.Flash}}{{$field.Flash}}{{else}}{{$field.Value}}{{end}}">
+      {{if $field.Error}}<span>{{$field.Error}}</span>{{end}}
+    {{end}}
+  </div>
 
-  {{with $field := field "article.Content" .}}
-    <label for="{{$field.Name}}">Content</label>
-    <textarea type="text" name="{{$field.Name}}">{{$field.Flash}}</textarea>
-    {{if $field.Error}}<span>{{$field.Error}}</span>{{end}}
-  {{end}}
+  <div class="row">
+    {{with $field := field "article.Content" .}}
+      <label for="{{$field.Name}}">Content</label>
+      <textarea type="text" name="{{$field.Name}}">{{if $field.Flash}}{{$field.Flash}}{{else}}{{$field.Value}}{{end}}</textarea>
+      {{if $field.Error}}<span>{{$field.Error}}</span>{{end}}
+    {{end}}
+  </div>
 
-  <input type="submit" class="btn btn-primary" value="{{.actionButton}}">
+  <div class="row">
+    <input type="submit" class="btn btn-primary" value="{{.actionButton}}">
+  </div>
 
 </form>
