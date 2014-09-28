@@ -15,6 +15,12 @@ POST    /settings                               App.UpdateSettings
 GET     /articles                               Articles.Index
 GET     /articles/new                           Articles.New
 POST    /articles/new                           Articles.CreateArticle
+GET     /articles/:slug                         Articles.Show
+GET     /articles/edit/:id                      Articles.Edit
+POST    /articles/update/:id                    Articles.Update
+GET     /articles/delete/:id                    Articles.Delete
+POST    /articles/publish/:id                   Articles.Publish
+POST    /articles/unpublish/:id                 Articles.Unpublish
 
 # Ignore favicon requests
 GET     /favicon.ico                            404
