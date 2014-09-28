@@ -1,0 +1,7 @@
+<div class="row">
+  <form action="{{.publishAction}}" method="post" accept-charset="utf-8">
+    <input type="hidden" name="csrf_token" value="{{ .csrf_token }}" />
+    <input type="submit" value="{{.publishButton}}" class="btn {{.class}}">  
+    <a class="btn btn-danger" href="/articles/delete/{{.article.Id}}">Delete</a>
+  </form>
+</div>

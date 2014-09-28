@@ -13,10 +13,22 @@
     {{end}}
   </head>
   <body>
-
+  
   <div class="container">
     <nav>
       <ul>
+        <li><a href="{{url "App.Index"}}">Home</a></li>
+        <li>
+          <a href="{{url "Articles.Index" }}">Articles</a>
+          {{if .auth}}
+          <ul>
+            <li><a href="{{url "Articles.New"}}">New Article</a></li>
+            {{range .articleLinks}}  
+              <li><a href="" title=""></a></li>
+            {{end}}
+          </ul> 
+          {{end}}
+        </li>
         {{if .auth}}
         <li><a href="{{url "App.Settings"}}">Settings</a></li>
         <li><a href="{{url "App.Logout"}}">Logout</a></li>

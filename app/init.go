@@ -1,6 +1,11 @@
 package app
 
-import "github.com/revel/revel"
+import (
+	"github.com/cbonello/revel-csrf"
+	"github.com/revel/revel"
+	"github.com/russross/blackfriday"
+	"time"
+)
 
 func init() {
 	// Filters is the default set of global filters.
@@ -11,12 +16,25 @@ func init() {
 		revel.ParamsFilter,            // Parse parameters into Controller.Params.
 		revel.SessionFilter,           // Restore and write the session cookie.
 		revel.FlashFilter,             // Restore and write the flash cookie.
+		csrf.CSRFFilter,               // CSRF prevention.
 		revel.ValidationFilter,        // Restore kept validation errors and save new ones from cookie.
 		revel.I18nFilter,              // Resolve the requested language
 		HeaderFilter,                  // Add some security based headers
 		revel.InterceptorFilter,       // Run interceptors around the action.
 		revel.CompressFilter,          // Compress the result.
 		revel.ActionInvoker,           // Invoke the action.
+	}
+
+	revel.TemplateFuncs["date"] = func(date time.Time) string {
+		return date.Format("January 02, 2006")
+	}
+
+  revel.TemplateFuncs["unixDate"] = func(date time.Time) string {
+    return date.Format("02-01-2006 15:04:05")
+  }
+
+	revel.TemplateFuncs["markdown"] = func(text string) string {
+		return string(blackfriday.MarkdownBasic([]byte(text)))
 	}
 
 }
