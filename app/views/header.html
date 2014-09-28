@@ -20,7 +20,14 @@
         <li><a href="{{url "App.Index"}}">Home</a></li>
         <li>
           <a href="{{url "Articles.Index" }}">Articles</a>
-          <ul><a href="{{url "Articles.New"}}">New Article</a></ul>
+          {{if .auth}}
+          <ul>
+            <li><a href="{{url "Articles.New"}}">New Article</a></li>
+            {{range .articleLinks}}  
+              <li><a href="" title=""></a></li>
+            {{end}}
+          </ul> 
+          {{end}}
         </li>
         {{if .auth}}
         <li><a href="{{url "App.Settings"}}">Settings</a></li>
