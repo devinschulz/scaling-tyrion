@@ -29,6 +29,10 @@ func init() {
 		return date.Format("January 02, 2006")
 	}
 
+  revel.TemplateFuncs["unixDate"] = func(date time.Time) string {
+    return date.Format("02-01-2006 15:04:05")
+  }
+
 	revel.TemplateFuncs["markdown"] = func(text string) string {
 		return string(blackfriday.MarkdownBasic([]byte(text)))
 	}
