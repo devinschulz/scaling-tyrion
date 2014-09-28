@@ -22,6 +22,12 @@ GET     /articles/delete/:id                    Articles.Delete
 POST    /articles/publish/:id                   Articles.Publish
 POST    /articles/unpublish/:id                 Articles.Unpublish
 
+GET     /categories                             Categories.Index
+POST    /categories/new                         Categories.New
+POST    /categories/update/:id                  Categories.Update
+GET     /categories/delete/:id                  Categories.Delete
+GET     /categories/edit/:id                    Categories.Edit
+
 # Ignore favicon requests
 GET     /favicon.ico                            404
 
