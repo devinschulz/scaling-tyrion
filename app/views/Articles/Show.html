@@ -1,0 +1,21 @@
+{{set . "title" "New Article"}}
+{{template "header.html" .}}
+
+<h1>{{.article.Title}}</h1> 
+{{if .auth}}
+  <ul>
+    <li>
+      {{if .article.Published}}
+        <time datetime="{{unixDate .article.PublishedAt}}">{{date .article.PublishedAt}}</time>
+      {{else}}
+        Not Published
+      {{end}}
+    </li>
+    <li><a href="/articles/edit/{{.article.Id}}">Edit</a></li>
+    <li><a href="/articles/delete/{{.article.Id}}">Delete</a></li>
+  </ul>
+{{end}}
+
+{{.content}}
+
+{{template "footer.html" .}}
