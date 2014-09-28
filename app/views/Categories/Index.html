@@ -1,0 +1,38 @@
+{{set . "title" "Categories"}}
+{{template "header.html" .}}
+  
+  <h1>Categories</h1>
+
+  <form action="{{url "Categories.New"}}" method="post" accept-charset="utf-8">
+    <input type="hidden" name="csrf_token" value="{{ .csrf_token }}" />
+    {{with $field := field "category.Name" .}}
+    <div class="form-group {{if $field.Error}}has-warning{{end}}">
+      <input type="text" name="{{$field.Name}}" value="{{if $field.Flash}}{{$field.Flash}}{{else}}{{$field.Value}}{{end}}" placeholder="Name">
+      {{if $field.Error}}<span class="text-danger">{{$field.Error}}</span>{{end}}
+    </div>  
+    {{end}}
+    <input type="submit" value="Create Category" class="btn btn-primary">
+  </form>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Slug</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    {{range .categories}}
+    <tr>
+      <td>{{.Id}}</td>
+      <td>{{.Name}}</td>
+      <td>{{.Slug}}</td>
+      <td><a href="/categories/edit/{{.Id}}" class="btn btn-success">Edit</a></td>
+      <td><a href="/categories/delete/{{.Id}}" class="btn btn-danger">Delete</a></td>
+    </tr> 
+    {{end}}
+  </table>
+
+{{template "footer.html" .}}

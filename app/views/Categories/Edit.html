@@ -1,0 +1,29 @@
+{{set . "title" "Categories"}}
+{{template "header.html" .}}
+  
+  <h1>Edit</h1>
+  <form action="/categories/update/{{.category.Id}}" method="post" accept-charset="utf-8">
+    <input type="hidden" name="csrf_token" value="{{ .csrf_token }}" />
+    <div class="row">
+      {{with $field := field "category.Name" .}}
+        <label for="{{$field.Name}}">Name</label>
+        <input type="text" name="{{$field.Name}}" value="{{if $field.Flash}}{{$field.Flash}}{{else}}{{$field.Value}}{{end}}">
+        {{if $field.Error}}<span>{{$field.Error}}</span>{{end}}
+      {{end}}
+    </div>
+
+    <div class="row">
+      {{with $field := field "category.Slug" .}}
+        <label for="{{$field.Name}}">Slug</label>
+        <input type="text" name="{{$field.Name}}" value="{{if $field.Flash}}{{$field.Flash}}{{else}}{{$field.Value}}{{end}}">
+        {{if $field.Error}}<span>{{$field.Error}}</span>{{end}}
+      {{end}}
+    </div>
+
+    <div class="row">
+      <input type="submit" class="btn btn-success" value="Update">
+      <a href="{{url "Categories.Index"}}">Cancel</a>
+    </div>
+  </form>
+
+{{template "footer.html" .}}

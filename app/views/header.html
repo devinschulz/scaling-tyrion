@@ -30,6 +30,7 @@
           {{end}}
         </li>
         {{if .auth}}
+        <li><a href="{{url "Categories.Index"}}">Categories</a></li>
         <li><a href="{{url "App.Settings"}}">Settings</a></li>
         <li><a href="{{url "App.Logout"}}">Logout</a></li>
         {{else}}
