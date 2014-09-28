@@ -1,4 +1,19 @@
 {{set . "title" "Articles"}}
 {{template "header.html" .}}
   <h1>Articles</h1>
+
+  {{range .articles}}
+    <h2><a href="/articles/{{.Slug}}">{{.Title}}</a></h2>
+    <ul>
+      <li>
+        {{if .Published}}
+          <time datetime="{{unixDate .PublishedAt}}">{{date .PublishedAt}}</time>
+        {{else}}
+          Not Published
+        {{end}}
+      </li>
+    </ul>
+
+  {{end}}
+
 {{template "footer.html" .}}
