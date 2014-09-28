@@ -2,6 +2,7 @@ package models
 
 import (
 	"github.com/revel/revel"
+  "github.com/coopernurse/gorp"
 	"time"
 )
 
@@ -31,4 +32,15 @@ func (article *Article) Validate(v *revel.Validation) {
 	v.Check(article.Content,
 		revel.Required{},
 	)
+}
+
+func (a *Article) PreInsert(s gorp.SqlExecutor) error {
+    a.CreatedAt = time.Now()
+    a.UpdatedAt = a.CreatedAt
+    return nil
+}
+
+func (a *Article) PreUpdate(s gorp.SqlExecutor) error {
+    a.UpdatedAt = time.Now()
+    return nil
 }
