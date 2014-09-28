@@ -53,6 +53,13 @@ func InitDB() {
 		"Slug":  255,
 	})
 
+  t = Dbm.AddTableWithName(models.Category{}, "categories").SetKeys(true, "Id")
+  t.ColMap("Name").SetUnique(true)
+  t.ColMap("Slug").SetUnique(true)
+  setColumnSizes(t, map[string]int{
+    "Name": 100,
+  })
+
 	Dbm.TraceOn("[gorp]", revel.INFO)
 
 	err := Dbm.CreateTablesIfNotExists()
