@@ -24,6 +24,22 @@
   </div>
 
   <div class="row">
+    {{with $field := field "article.Categories" .}}
+      <label for="{{$field.Name}}">Categories</label>
+      <input type="text" name="{{$field.Name}}" value="{{if $field.Flash}}{{$field.Flash}}{{else}}{{$field.Value}}{{end}}">
+      {{if $field.Error}}<span>{{$field.Error}}</span>{{end}}
+    {{end}}
+  </div>
+
+  <div class="row">
+    {{with $field := field "article.Tags" .}}
+      <label for="{{$field.Name}}">Tags</label>
+      <input type="text" name="{{$field.Name}}" value="{{if $field.Flash}}{{$field.Flash}}{{else}}{{$field.Value}}{{end}}">
+      {{if $field.Error}}<span>{{$field.Error}}</span>{{end}}
+    {{end}}
+  </div>
+
+  <div class="row">
     {{with $field := field "article.Content" .}}
       <label for="{{$field.Name}}">Content</label>
       <textarea type="text" name="{{$field.Name}}">{{if $field.Flash}}{{$field.Flash}}{{else}}{{$field.Value}}{{end}}</textarea>
