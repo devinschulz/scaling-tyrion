@@ -37,7 +37,8 @@ func (c Articles) New() revel.Result {
   if auth {
     action := "/articles/new"
     actionButton := "Create Article"
-    return c.Render(auth, action, actionButton)  
+    categories := getCategories(c)
+    return c.Render(auth, action, actionButton, categories)  
   }
   c.Flash.Error("You must be logged in to create new articles")
 	return c.Redirect(Articles.Index)
@@ -113,6 +114,7 @@ func (c Articles) Edit(id int64) revel.Result {
   	action := fmt.Sprintf("/articles/update/%v", id)
   	actionButton := "Update Article"
   	article := c.GetArticleById(id)
+    categories := getCategories(c)
 
     var (
       publishAction string
@@ -130,7 +132,7 @@ func (c Articles) Edit(id int64) revel.Result {
       class = "btn-success"
     }
 
-  	return c.Render(auth, action, actionButton, article, publishAction, publishButton, class)
+  	return c.Render(auth, action, actionButton, article, publishAction, publishButton, class, categories)
   } 
   c.Flash.Error("You must be logged in to edit this post")
   return c.Redirect(Articles.Index)
@@ -223,4 +225,10 @@ func (c Articles) GetArticleById(id int64) models.Article {
 	})
 	checkERROR(err)
 	return article
+}
+
+func getCategories(c Articles) []interface{} {
+  categories, err := c.Txn.Select(models.Category{}, `SELECT * FROM categories ORDER BY category_name`)
+  checkERROR(err)
+  return categories
 }
